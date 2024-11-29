@@ -1,0 +1,29 @@
+Flappy bird
+
+A timed base game where a player can control a bird sprite using the up/down/right/left arrow keys on a terrain, with rectangular obstacles like in flappy bird that move past the screen.
+Successfully avoiding one object will add points to the score, which will be continuously updated. 
+If the sprite hits the obstacle, the game will end (there will be a restart button). 
+
+I/O
+Can pause and exit the game, which will save the entire game state including positions and score to a text file.
+reloading the game will read the file and display the game as it was left. 
+
+Inheritance/subtyping
+Interface GameObject, with classes Bird and Obstacle that implement it.
+GameObject will have fields position, hitbox (type Rectangle), a method move and a method isOutofBounds
+Bird will implement GameObject and overrides move, which shifts the bird’s position with user key inputs
+Obstacle will implement GameObject and override move, shifting the obstacle’s position on the screen every interval. 
+
+Collections 
+Use an ArrayList of type Obstacle to store active obstacles that appear on the screen
+If the obstacle’s position is out of bounds (it moves off the screen), it will be removed from the list. 
+At certain time intervals, a new obstacle with a random position will be generated and added to the list. 
+
+JUnit testing (10 tests)
+Test that collisions are properly detected (isOutOfBounds method), will test edge cases such as moving the sprite off the screen
+Test that obstacles are removed/added properly (compare the expected array and array after indirectly adding/removing element from move)
+Test that the score is updated accordingly (simulate successfully avoiding an obstacle through move)
+
+
+
+
