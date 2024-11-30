@@ -22,7 +22,7 @@ public abstract class GameObj {
 
     /* Size of object, in pixels. */
     private final int width;
-    private final int height;
+    private int height;
 
     /* Velocity: number of pixels to move every time move() is called. */
     private int vx;
@@ -35,12 +35,15 @@ public abstract class GameObj {
     private final int maxX;
     private final int maxY;
 
+    private final int courtWidth;
+    private final int courtHeight;
+
     /**
      * Constructor
      */
     public GameObj(
-            int vx, int vy, int px, int py, int width, int height, int courtwidth,
-            int courtheight
+            int vx, int vy, int px, int py, int width, int height, int courtWidth,
+            int courtHeight
     ) {
         this.vx = vx;
         this.vy = vy;
@@ -48,11 +51,13 @@ public abstract class GameObj {
         this.py = py;
         this.width = width;
         this.height = height;
+        this.courtWidth = courtWidth;
+        this.courtHeight = courtHeight;
 
         // take the width and height into account when setting the bounds for
         // the upper left corner of the object.
-        this.maxX = courtwidth - width;
-        this.maxY = courtheight - height;
+        this.maxX = courtWidth - width;
+        this.maxY = courtHeight - height;
     }
 
     // **********************************************************************************
@@ -82,6 +87,7 @@ public abstract class GameObj {
         return this.height;
     }
 
+
     // **************************************************************************
     // * SETTERS
     // **************************************************************************
@@ -103,6 +109,8 @@ public abstract class GameObj {
         this.vy = vy;
     }
 
+    public void setHeight(int height) { this.height = height; }
+
     // **************************************************************************
     // * UPDATES AND OTHER METHODS
     // **************************************************************************
@@ -112,7 +120,7 @@ public abstract class GameObj {
      * designated for the object (i.e. Object cannot go outside the active
      * area the user defines for it).
      */
-    private void clip() {
+    protected void clip() {
         this.px = Math.min(Math.max(this.px, 0), this.maxX);
         this.py = Math.min(Math.max(this.py, 0), this.maxY);
     }
