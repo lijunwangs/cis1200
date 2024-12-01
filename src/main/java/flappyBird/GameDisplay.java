@@ -115,6 +115,8 @@ public class GameDisplay extends JPanel {
                 } */
                 if (obstacle.isOutOfBounds()) {
                     obstacles.remove(obstacle);
+                    score += 50;
+                    scoreBoard.setText("Score: " + score);
                 }
             }
             repaint();
