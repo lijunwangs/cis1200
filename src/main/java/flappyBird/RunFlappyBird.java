@@ -21,9 +21,20 @@ public class RunFlappyBird implements Runnable {
         final GameDisplay court = new GameDisplay();
         frame.add(court, BorderLayout.CENTER);
 
+        final JLabel score = new JLabel("Score: " + court.getScore());
+        status_panel.add(score);
+
         // Reset button
         final JPanel control_panel = new JPanel();
         frame.add(control_panel, BorderLayout.NORTH);
+        final JButton reset = new JButton("Reset");
+        reset.addActionListener(e -> court.reset());
+        control_panel.add(reset);
+
+        // Pause button
+        final JButton pause = new JButton("Pause");
+        pause.addActionListener(e -> court.pause());
+        control_panel.add(pause);
 
         // Put the frame on the screen
         frame.pack();

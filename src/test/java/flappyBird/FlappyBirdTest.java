@@ -2,6 +2,8 @@ package flappyBird;
 
 import org.junit.jupiter.api.*;
 import java.awt.*;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -27,53 +29,81 @@ public class FlappyBirdTest {
     public void birdVelocityUpdatesPosition() {
         Bird bird = new Bird(200, 200);
 
-        // update velocity to non-zero value
         bird.setVx(10);
         bird.setVy(20);
         assertEquals(10, bird.getVx());
         assertEquals(20, bird.getVy());
 
-        // position should not have updated yet since we didn't call move()
         assertEquals(0, bird.getPx());
         assertEquals(0, bird.getPy());
 
-        // move!
         bird.move();
 
-        // square should've moved
         assertEquals(10, bird.getPx());
         assertEquals(20, bird.getPy());
     }
 
     @Test
-    public void createObstacle() {
-        Obstacle obstacle = new Obstacle(200, 200, 50, 100);
-        assertEquals(0, obstacle.getPx());
+    public void moveBirdOffScreen() {
+        Bird bird = new Bird(200, 200);
+        bird.setVx(-10);
+        bird.move();
+        assertEquals(0, bird.getPx());
+    }
+
+    @Test
+    public void moveObstacle() {
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1);
+        obstacle.move();
+        assertEquals(996, obstacle.getPx());
+    }
+
+    @Test
+    public void obstacleOutOfBounds() {
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1);
+        obstacle.setPx(-60);
+        assertTrue(obstacle.isOutOfBounds());
     }
 
     @Test
     public void twoObjectIntersection() {
-        // square should spawn at (0, 0)
-        Square square = new Square(200, 200, Color.white);
-        assertEquals(0, square.getPx());
-        assertEquals(0, square.getPy());
+        Bird bird = new Bird(200, 200);
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1);
+        assertFalse(bird.intersects(obstacle));
+        obstacle.setPx(0);
+        obstacle.setPy(200);
+        assertTrue(bird.intersects(obstacle));
+    }
 
-        // mushroom should spawn at (130, 130)
-        Poison mushroom = new Poison(200, 200);
-        assertEquals(130, mushroom.getPx());
-        assertEquals(130, mushroom.getPy());
+    @Test
+    public void generateRandomObstacles() {
+        GameDisplay court = new GameDisplay();
+        court.generateRandomObstacle();
+        assertEquals(2, court.getObstacles().size());
+    }
 
-        // they're very far apart, so they should not be intersecting
-        assertFalse(square.intersects(mushroom));
+    @Test
+    public void removeObstacles() {
+        GameDisplay court = new GameDisplay();
+        court.generateRandomObstacle();
+        for (Obstacle obstacle : court.getObstacles()) {
+            obstacle.setPx(-300);
+        }
+        assertEquals(0, court.getObstacles().size());
+    }
 
-        // move square on top of mushroom
-        square.setPx(130);
-        square.setPy(130);
-
-        assertEquals(130, square.getPx());
-        assertEquals(130, square.getPy());
-
-        // now, they're on top of one another! they should intersect
-        assertTrue(square.intersects(mushroom));
+    @Test
+    public void scoreUpdate() {
+        GameDisplay court = new GameDisplay();
+        int score = court.getScore();
+        Bird bird = new Bird(200, 200);
+        bird.setVx(10);
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1);
+        Obstacle obstacle2 = new Obstacle(200, 200, 50, 100, 300, 1);
+        assertEquals(0, score);
+        obstacle.setPx(0);
+        obstacle2.setPx(0);
+        bird.setPx(100);
+        assertEquals(100, score);
     }
 }

@@ -10,7 +10,7 @@ public class Bird extends GameObj {
     public static final String IMG_FILE = "files/sprite.png";
     public static final int SIZE = 40;
     public static final int INIT_POS_X = 0;
-    public static final int INIT_POS_Y = 0;
+    public static final int INIT_POS_Y = 200;
     public static final int INIT_VEL_X = 0;
     public static final int INIT_VEL_Y = 0;
 

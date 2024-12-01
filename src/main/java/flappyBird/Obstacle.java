@@ -9,7 +9,7 @@ public class Obstacle extends GameObj {
 
     public static int posX = 1001;
     public static final int VEL_X = -5;
-    private final Color color = Color.BLACK;
+    private final Color color = new Color(100, 143, 139);
 
     public Obstacle(int courtWidth, int courtHeight, int width, int height, int posY, int velY) {
         super(VEL_X, velY, posX, posY, width, height, courtWidth, courtHeight);
@@ -18,7 +18,7 @@ public class Obstacle extends GameObj {
     @Override
     public void draw(Graphics g) {
         g.setColor(this.color);
-        g.fillRect(this.getPx(), this.getPy(), this.getWidth(), this.getHeight());
+        g.fillRoundRect(this.getPx(), this.getPy(), this.getWidth(), this.getHeight(),15, 15);
         /*g.fillRect(this.getPx(), this.getPy() + this.getHeight() + gap, this.getWidth(),
                 this.getCourtHeight()-this.getHeight() - gap);*/
     }

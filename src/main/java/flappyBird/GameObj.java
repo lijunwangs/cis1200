@@ -87,7 +87,6 @@ public abstract class GameObj {
         return this.height;
     }
 
-
     // **************************************************************************
     // * SETTERS
     // **************************************************************************
@@ -153,6 +152,12 @@ public abstract class GameObj {
                 && that.py + that.height >= this.py);
     }
 
+    public boolean isOutOfBounds() {
+        if (this.px + this.width < 0) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Default draw method that provides how the object should be drawn in the

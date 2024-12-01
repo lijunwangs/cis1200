@@ -10,9 +10,9 @@ public class GameDisplay extends JPanel {
     // the state of the game logic
     private Bird bird = new Bird(1000, 400); // the Black Square, keyboard control
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
-    //private Obstacle obstacle = generateRandomObstacle();
-
     private boolean playing = true; // whether the game is running
+    private int score = 0;
+    private final JLabel scoreBoard = new JLabel();
 
     // Game constants
     public static final int COURT_WIDTH = 1000;
@@ -62,6 +62,10 @@ public class GameDisplay extends JPanel {
         });
     }
 
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
     public void generateRandomObstacle() {
         int maxW = 500;
         int minW = 200;
@@ -105,17 +109,34 @@ public class GameDisplay extends JPanel {
                     playing = false;
                     break;
                 }
+                /*if (obstacle.getPx() < bird.getPx()) {
+                    score += 50;
+                    scoreBoard.setText("Score: " + score);
+                } */
+                if (obstacle.isOutOfBounds()) {
+                    obstacles.remove(obstacle);
+                }
             }
-
-            /*if (bird.intersects(obstacle)) {
-                playing = false;
-            } */
-
-            // update the display
             repaint();
             requestFocusInWindow();
         }
         tickCounter++;
+    }
+
+    public void reset() {
+        bird = new Bird(COURT_WIDTH, COURT_HEIGHT);
+        obstacles = new ArrayList<Obstacle>();
+        playing = true;
+        // Make sure that this component has the keyboard focus
+        requestFocusInWindow();
+    }
+
+    public void pause() {
+        playing = !playing;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     @Override
