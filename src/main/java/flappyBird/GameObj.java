@@ -5,9 +5,11 @@ import java.awt.Graphics;
 /**
  * An object in the game.
  *
+ * <p>
  * Game objects exist in the game court. They have a position, velocity, size
- * and bounds. Their velocity controls how they move; their position should
- * always be within their bounds.
+ * and bounds. Their
+ * velocity controls how they move; their position should always be within their
+ * bounds.
  */
 public abstract class GameObj {
     /*
@@ -38,12 +40,9 @@ public abstract class GameObj {
     private final int courtWidth;
     private final int courtHeight;
 
-    /**
-     * Constructor
-     */
+    /** Constructor */
     public GameObj(
-            int vx, int vy, int px, int py, int width, int height, int courtWidth,
-            int courtHeight
+            int vx, int vy, int px, int py, int width, int height, int courtWidth, int courtHeight
     ) {
         this.vx = vx;
         this.vy = vy;
@@ -108,16 +107,18 @@ public abstract class GameObj {
         this.vy = vy;
     }
 
-    public void setHeight(int height) { this.height = height; }
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     // **************************************************************************
     // * UPDATES AND OTHER METHODS
     // **************************************************************************
 
     /**
-     * Prevents the object from going outside the bounds of the area
-     * designated for the object (i.e. Object cannot go outside the active
-     * area the user defines for it).
+     * Prevents the object from going outside the bounds of the area designated for
+     * the object (i.e.
+     * Object cannot go outside the active area the user defines for it).
      */
     protected void clip() {
         this.px = Math.min(Math.max(this.px, 0), this.maxX);
@@ -125,8 +126,9 @@ public abstract class GameObj {
     }
 
     /**
-     * Moves the object by its velocity. Ensures that the object does not go
-     * outside its bounds by clipping.
+     * Moves the object by its velocity. Ensures that the object does not go outside
+     * its bounds by
+     * clipping.
      */
     public void move() {
         this.px += this.vx;
@@ -136,11 +138,12 @@ public abstract class GameObj {
     }
 
     /**
-     * Determine whether this game object is currently intersecting another
-     * object.
+     * Determine whether this game object is currently intersecting another object.
      *
-     * Intersection is determined by comparing bounding boxes. If the bounding
-     * boxes overlap, then an intersection is considered to occur.
+     * <p>
+     * Intersection is determined by comparing bounding boxes. If the bounding boxes
+     * overlap, then
+     * an intersection is considered to occur.
      *
      * @param that The other object
      * @return Whether this object intersects the other object.
@@ -160,14 +163,17 @@ public abstract class GameObj {
     }
 
     /**
-     * Default draw method that provides how the object should be drawn in the
-     * GUI. This method does not draw anything. Subclass should override this
-     * method based on how their object should appear.
+     * Default draw method that provides how the object should be drawn in the GUI.
+     * This method does
+     * not draw anything. Subclass should override this method based on how their
+     * object should
+     * appear.
      *
      * @param g The <code>Graphics</code> context used for drawing the object.
-     *          Remember graphics contexts that we used in OCaml, it gives the
-     *          context in which the object should be drawn (a canvas, a frame,
-     *          etc.)
+     *          Remember graphics
+     *          contexts that we used in OCaml, it gives the context in which the
+     *          object should be drawn (a
+     *          canvas, a frame, etc.)
      */
     public abstract void draw(Graphics g);
 }

@@ -26,7 +26,6 @@ public class Bird extends GameObj {
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
-
     }
 
     @Override

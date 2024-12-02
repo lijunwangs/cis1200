@@ -1,14 +1,19 @@
 package flappyBird;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Random;
-import java.awt.Color;
 import java.util.List;
+import java.util.Random;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class GameDisplay extends JPanel {
     // the state of the game logic
@@ -46,24 +51,26 @@ public class GameDisplay extends JPanel {
         // This key listener allows the square to move as long as an arrow key
         // is pressed, by changing the square's velocity accordingly. (The tick
         // method below actually moves the square.)
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    bird.setVx(-BIRD_VELOCITY_X);
-                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    bird.setVx(BIRD_VELOCITY_X);
-                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    bird.setVy(BIRD_VELOCITY_Y);
-                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    bird.setVy(-BIRD_VELOCITY_Y);
-                }
-            }
+        addKeyListener(
+                new KeyAdapter() {
+                    public void keyPressed(KeyEvent e) {
+                        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                            bird.setVx(-BIRD_VELOCITY_X);
+                        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                            bird.setVx(BIRD_VELOCITY_X);
+                        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                            bird.setVy(BIRD_VELOCITY_Y);
+                        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                            bird.setVy(-BIRD_VELOCITY_Y);
+                        }
+                    }
 
-            public void keyReleased(KeyEvent e) {
-                bird.setVx(0);
-                bird.setVy(0);
-            }
-        });
+                    public void keyReleased(KeyEvent e) {
+                        bird.setVx(0);
+                        bird.setVy(0);
+                    }
+                }
+        );
         this.scoreBoard = scoreBoard;
     }
 
@@ -85,17 +92,16 @@ public class GameDisplay extends JPanel {
         }
         Color color = getRandomColor(colorList);
         obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800, posY, velY, color));
-        obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800,
-                posY + 800 + gap, velY, color));
-
+        obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800, posY + 800 + gap, velY, color));
     }
+
     /**
      * This method is called every time the timer defined in the constructor
      * triggers.
      */
     int tickCounter = 0;
+
     void tick() {
-        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
         if (playing) {
             bird.move();
             scoreBoard.setText("Score: " + score);
@@ -109,6 +115,8 @@ public class GameDisplay extends JPanel {
                     obstacle.move();
                 }
             }
+            Iterator<Obstacle> obstacleIterator = obstacles.iterator();
+
             while (obstacleIterator.hasNext()) {
                 Obstacle o = obstacleIterator.next();
                 if (bird.intersects(o)) {
@@ -118,10 +126,11 @@ public class GameDisplay extends JPanel {
                 if (o.getPx() < bird.getPx()) {
                     score += 50;
                 }
-                /*if (o.isOutOfBounds()) {
+                if (o.isOutOfBounds()) {
                     obstacleIterator.remove();
-                } */
+                }
             }
+
             repaint();
             requestFocusInWindow();
         }
@@ -140,8 +149,7 @@ public class GameDisplay extends JPanel {
         playing = !playing;
         if (!playing) {
             button.setText("Unpause");
-        }
-        else {
+        } else {
             button.setText("Pause");
         }
     }
@@ -149,7 +157,6 @@ public class GameDisplay extends JPanel {
     public int getScore() {
         return score;
     }
-
 
     public static Color getRandomColor(List<Color> colors) {
         if (colors == null || colors.isEmpty()) {
@@ -167,7 +174,8 @@ public class GameDisplay extends JPanel {
             new Color(107, 123, 98),
             new Color(187, 183, 131),
             new Color(127, 166, 135),
-            new Color(157, 184, 144));
+            new Color(157, 184, 144)
+    );
 
     @Override
     public void paintComponent(Graphics g) {

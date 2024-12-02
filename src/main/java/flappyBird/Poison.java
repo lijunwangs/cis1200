@@ -9,11 +9,14 @@ import javax.imageio.ImageIO;
 /**
  * A game object displayed using an image.
  *
+ * <p>
  * Note that the image is read from the file when the object is constructed, and
- * that all objects created by this constructor share the same image data (i.e.
- * img is static). This is important for efficiency: your program will go very
- * slowly if you try to create a new BufferedImage every time the draw method is
- * invoked.
+ * that all objects
+ * created by this constructor share the same image data (i.e. img is static).
+ * This is important for
+ * efficiency: your program will go very slowly if you try to create a new
+ * BufferedImage every time
+ * the draw method is invoked.
  */
 public class Poison extends GameObj {
     public static final String IMG_FILE = "files/poison.png";

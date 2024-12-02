@@ -1,10 +1,9 @@
 package flappyBird;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.*;
 
 public class RunFlappyBird implements Runnable {
 
@@ -20,17 +19,15 @@ public class RunFlappyBird implements Runnable {
         Color sideColor = new Color(150, 168, 157);
         Font customFont = new Font("Arial", Font.PLAIN, 20);
 
-        //font
+        // font
         try {
             customFont = Font.createFont(Font.TRUETYPE_FONT, new File("files/retrograde.otf"));
             customFont = customFont.deriveFont(15f); // Set font size
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
-        }
-        catch (FontFormatException e) {
+        } catch (FontFormatException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
-
 
         // Top-level frame in which game components live.
         // Be sure to change "TOP LEVEL FRAME" to the name of your game

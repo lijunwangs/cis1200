@@ -1,23 +1,24 @@
 package flappyBird;
 
-import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.lang.reflect.*;
+import org.junit.jupiter.api.*;
 
 /**
  * This code makes sure that your Game class has a
- * {@code public static void main(String[] args)} method.
- * Compilation will fail if your Game requires additional libraries - feel free
- * to follow up on Piazza or via email if this is the case.
+ * {@code public static void main(String[] args)}
+ * method. Compilation will fail if your Game requires additional libraries -
+ * feel free to follow up
+ * on Piazza or via email if this is the case.
  */
 public class CompilationTest {
 
     @Test
-
     public void testMain() {
-        String error = ("Error: Your submission must include a class called " +
-                "\"Game\" in package \"org.cis1200\" with a main method:\n" +
-                "   public static void main(String[] args)");
+        String error = ("Error: Your submission must include a class called "
+                + "\"Game\" in package \"org.cis1200\" with a main method:\n"
+                + "   public static void main(String[] args)");
 
         Class<Game> gameClass = Game.class;
 
@@ -29,8 +30,7 @@ public class CompilationTest {
 
             if (!gameMain.getReturnType().toString().equals("void")) {
                 System.out.println(
-                        error
-                                + "\nThe Game class's main method should have return type void."
+                        error + "\nThe Game class's main method should have return type void."
                 );
                 fail("The Game class's main method should have return type void.");
             }

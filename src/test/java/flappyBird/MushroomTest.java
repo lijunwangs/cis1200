@@ -1,14 +1,11 @@
 package flappyBird;
 
-import org.junit.jupiter.api.*;
-import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * You can use this file (and others) to test your
- * implementation.
- */
+import java.awt.*;
+import org.junit.jupiter.api.*;
 
+/** You can use this file (and others) to test your implementation. */
 public class MushroomTest {
     @Test
     public void createSquare() {

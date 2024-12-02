@@ -1,19 +1,13 @@
 package flappyBird;
 
-import org.junit.jupiter.api.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.awt.Color;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * You can use this file (and others) to test your
- * implementation.
- */
+import java.awt.*;
+import java.awt.Color;
+import javax.swing.*;
+import org.junit.jupiter.api.*;
 
+/** You can use this file (and others) to test your implementation. */
 public class FlappyBirdTest {
     @Test
     public void createBird() {
@@ -56,16 +50,14 @@ public class FlappyBirdTest {
 
     @Test
     public void moveObstacle() {
-        Obstacle obstacle = new Obstacle(200, 200, 50, 100,
-                0, 1, Color.BLACK);
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1, Color.BLACK);
         obstacle.move();
         assertEquals(996, obstacle.getPx());
     }
 
     @Test
     public void obstacleOutOfBounds() {
-        Obstacle obstacle = new Obstacle(200, 200, 50, 100,
-                0, 1, Color.BLACK);
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1, Color.BLACK);
         obstacle.setPx(-60);
         assertTrue(obstacle.isOutOfBounds());
     }
@@ -73,8 +65,7 @@ public class FlappyBirdTest {
     @Test
     public void twoObjectIntersection() {
         Bird bird = new Bird(200, 200);
-        Obstacle obstacle = new Obstacle(200, 200, 50, 100,
-                0, 1, Color.BLACK);
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1, Color.BLACK);
         assertFalse(bird.intersects(obstacle));
         obstacle.setPx(0);
         obstacle.setPy(200);
@@ -116,15 +107,12 @@ public class FlappyBirdTest {
         int x = court.getScore();
         Bird bird = new Bird(200, 200);
         bird.setVx(10);
-        Obstacle obstacle = new Obstacle(200, 200, 50, 100,
-                0, 1, Color.BLACK);
-        Obstacle obstacle2 = new Obstacle(200, 200, 50, 100,
-                300, 1, Color.BLACK);
+        Obstacle obstacle = new Obstacle(200, 200, 50, 100, 0, 1, Color.BLACK);
+        Obstacle obstacle2 = new Obstacle(200, 200, 50, 100, 300, 1, Color.BLACK);
         assertEquals(0, score);
         obstacle.setPx(0);
         obstacle2.setPx(0);
         bird.setPx(100);
         assertEquals(100, x);
     }
-
 }
