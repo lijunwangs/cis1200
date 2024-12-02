@@ -4,7 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Random;
+import java.awt.Color;
+import java.util.List;
 
 public class GameDisplay extends JPanel {
     // the state of the game logic
@@ -12,7 +16,7 @@ public class GameDisplay extends JPanel {
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private boolean playing = true; // whether the game is running
     private int score = 0;
-    private final JLabel scoreBoard = new JLabel();
+    private final JLabel scoreBoard;
 
     // Game constants
     public static final int COURT_WIDTH = 1000;
@@ -23,7 +27,7 @@ public class GameDisplay extends JPanel {
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 20;
 
-    public GameDisplay() {
+    public GameDisplay(JLabel scoreBoard) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -60,28 +64,29 @@ public class GameDisplay extends JPanel {
                 bird.setVy(0);
             }
         });
+        this.scoreBoard = scoreBoard;
     }
 
     public ArrayList<Obstacle> getObstacles() {
         return obstacles;
     }
 
+    public int randomInt(int min, int max) {
+        return (int) (Math.random() * (max - min) + 1) + min;
+    }
+
     public void generateRandomObstacle() {
-        int maxW = 500;
-        int minW = 200;
-        int width = (int) (Math.random()*(maxW-minW) + 1) + minW;
-        int maxG = 100;
-        int minG = 80;
-        int gap = (int) (Math.random()*(maxG-minG) + 1) + minG;
-        int maxP = -750;
-        int minP = -400;
-        int posY = (int) (Math.random()*(maxP-minP) + 1) + minP;
+        int width = randomInt(200, 500);
+        int gap = randomInt(80, 100);
+        int posY = randomInt(-400, -750);
         int velY = -1;
         if (posY + 800 < 200) {
             velY = 1;
         }
-        obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800, posY, velY));
-        obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800, posY + 800 + gap, velY));
+        Color color = getRandomColor(colorList);
+        obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800, posY, velY, color));
+        obstacles.add(new Obstacle(2000, COURT_HEIGHT, width, 800,
+                posY + 800 + gap, velY, color));
 
     }
     /**
@@ -90,10 +95,11 @@ public class GameDisplay extends JPanel {
      */
     int tickCounter = 0;
     void tick() {
+        Iterator<Obstacle> obstacleIterator = obstacles.iterator();
         if (playing) {
-            // advance the square and snitch in their current direction.
             bird.move();
-            //obstacle.move();
+            scoreBoard.setText("Score: " + score);
+
             if (tickCounter % 275 == 0) {
                 generateRandomObstacle();
             }
@@ -103,21 +109,18 @@ public class GameDisplay extends JPanel {
                     obstacle.move();
                 }
             }
-
-            for (Obstacle obstacle : obstacles) {
-                if (bird.intersects(obstacle)) {
+            while (obstacleIterator.hasNext()) {
+                Obstacle o = obstacleIterator.next();
+                if (bird.intersects(o)) {
                     playing = false;
                     break;
                 }
-                /*if (obstacle.getPx() < bird.getPx()) {
+                if (o.getPx() < bird.getPx()) {
                     score += 50;
-                    scoreBoard.setText("Score: " + score);
-                } */
-                if (obstacle.isOutOfBounds()) {
-                    obstacles.remove(obstacle);
-                    score += 50;
-                    scoreBoard.setText("Score: " + score);
                 }
+                /*if (o.isOutOfBounds()) {
+                    obstacleIterator.remove();
+                } */
             }
             repaint();
             requestFocusInWindow();
@@ -127,25 +130,49 @@ public class GameDisplay extends JPanel {
 
     public void reset() {
         bird = new Bird(COURT_WIDTH, COURT_HEIGHT);
-        obstacles = new ArrayList<Obstacle>();
+        obstacles = new ArrayList<>();
         playing = true;
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
     }
 
-    public void pause() {
+    public void pause(JButton button) {
         playing = !playing;
+        if (!playing) {
+            button.setText("Unpause");
+        }
+        else {
+            button.setText("Pause");
+        }
     }
 
     public int getScore() {
         return score;
     }
 
+
+    public static Color getRandomColor(List<Color> colors) {
+        if (colors == null || colors.isEmpty()) {
+            throw new IllegalArgumentException("Color list cannot be null or empty.");
+        }
+        Random random = new Random();
+        int index = random.nextInt(colors.size()); // Generate a random index
+        return colors.get(index); // Return the color at the random index
+    }
+
+    List<Color> colorList = List.of(
+            new Color(155, 144, 0),
+            new Color(98, 93, 64),
+            new Color(68, 151, 119),
+            new Color(107, 123, 98),
+            new Color(187, 183, 131),
+            new Color(127, 166, 135),
+            new Color(157, 184, 144));
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         bird.draw(g);
-        //obstacle.draw(g);
         obstacles.forEach(obstacle -> obstacle.draw(g));
     }
 

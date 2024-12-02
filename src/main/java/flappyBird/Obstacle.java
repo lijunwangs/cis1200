@@ -9,10 +9,11 @@ public class Obstacle extends GameObj {
 
     public static int posX = 1001;
     public static final int VEL_X = -5;
-    private final Color color = new Color(100, 143, 139);
+    private final Color color;
 
-    public Obstacle(int courtWidth, int courtHeight, int width, int height, int posY, int velY) {
+    public Obstacle(int courtWidth, int courtHeight, int width, int height, int posY, int velY, Color color) {
         super(VEL_X, velY, posX, posY, width, height, courtWidth, courtHeight);
+        this.color = color;
     }
 
     @Override
